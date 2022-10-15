@@ -26,25 +26,26 @@ if(hidterminal)
     if (vcs_en)
         if((BKP_CNT_A + 2 + 1 + 2) < BKP_CNT_C )
             i = i + BKP_CNT_A + 2 + 1 + 2 + 1 + DataSlot + 1 + 2 ;  % Proceed the timeslot by BAKUP+ RTS + SIFS + CTS
-            BKP_CNT_C = BKP_CNT_C - (BKP_CNT_A + 1);                % A is successful and C is backed
+            BKP_CNT_C = BKP_CNT_C - (BKP_CNT_A + 2 + 1);                % A is successful and C is backed
             C_backedup = 1;
             A_backedup = 0;
             A_tran_suc = 1;
             CW_A = CWMIN_A;
-              fprintf("Mode 4:  A success   %d, %d  %d\n", BKP_CNT_A, BKP_CNT_C,i); 
+              %fprintf("Mode 4:  A success   %d, %d  %d\n", BKP_CNT_A, BKP_CNT_C,i); 
             if (CW_C < CWMAX_C) CW_C = 2*CW_C; end
              %fprintf("Mode 4:  A success   %d, %d  %d\n", BKP_CNT_A, BKP_CNT_C,i); 
         elseif ((BKP_CNT_C + 2 + 1 + 2) < BKP_CNT_A)
             i = i + BKP_CNT_C + 2 + 1 + 2 + 1 + DataSlot + 1 + 2 ;  % Proceed the timeslot by BAKUP+ RTS + SIFS + CTS
-            BKP_CNT_C = BKP_CNT_C - (BKP_CNT_A + 1);                % C is successfull and A is backed
+            BKP_CNT_A = BKP_CNT_A - (BKP_CNT_C + 1 + 2 + 1 );                % C is successfull and A is backed
             C_tran_suc = 1;
             C_backedup = 0;
             A_backedup = 1;
             CW_C = CWMIN_C;
+             %fprintf("Mode 4:  C success   %d, %d  %d\n", BKP_CNT_A, BKP_CNT_C,i); 
             if (CW_A < CWMAX_A) CW_A = 2*CW_A; end
         else
             coll_det = 1;
-            fprintf("Mode 4: Detected Collison when both nodes try with data in hidden mode  %d, %d  %d, %d, %d\n", CW_C, CW_A, BKP_CNT_A, BKP_CNT_C,i); 
+            %fprintf("Mode 4: Detected Collison when both nodes try with data in hidden mode  %d, %d  %d, %d, %d\n", CW_C, CW_A, BKP_CNT_A, BKP_CNT_C,i); 
             i = i + (max(BKP_CNT_A, BKP_CNT_C)) + 2 + 1 + 2;       % Collison ofr RTS + CTS window
             if (CW_C < CWMAX_C) CW_C = 2*CW_C; end
             if (CW_A < CWMAX_A) CW_A = 2*CW_A; end
@@ -53,24 +54,26 @@ if(hidterminal)
     else
         if((BKP_CNT_A +  DataSlot + 1 + 2) < BKP_CNT_C)
             i = i + BKP_CNT_A + DataSlot + 1 + 2 ;                 % Proceed the timeslot by BAKUP+ RTS + SIFS + CTS
-            BKP_CNT_C = BKP_CNT_C - (BKP_CNT_A + 1);                % A is successful and C is backed
+            BKP_CNT_C = BKP_CNT_C - (BKP_CNT_A + 1 + DataSlot + 1 );                % A is successful and C is backed
             A_tran_suc = 1;
             C_backedup = 1;
             A_backedup = 0;
             CW_A = CWMIN_A;
+            %fprintf("Mode 3:  A success   %d, %d  %d\n", BKP_CNT_A, BKP_CNT_C,i); 
             if (CW_C < CWMAX_C) CW_C = 2*CW_C; end
         elseif ((BKP_CNT_C +  DataSlot + 1 + 2) < BKP_CNT_A)
             i = i + BKP_CNT_C + DataSlot + 1 + 2 ;  % Proceed the timeslot by BAKUP+ RTS + SIFS + CTS
-            BKP_CNT_C = BKP_CNT_C - (BKP_CNT_A + 1);                % C is successfull and A is backed
+            BKP_CNT_A = BKP_CNT_A - (BKP_CNT_C + 1 + DataSlot + 1);                % C is successfull and A is backed
             C_tran_suc = 1;
             C_backedup = 0;
             A_backedup = 1;
             CW_C = CWMIN_C;
+            %fprintf("Mode 3:  C success   %d, %d  %d\n", BKP_CNT_A, BKP_CNT_C,i); 
             if (CW_A < CWMAX_A) CW_A = 2*CW_A; end
         else
             coll_det = 1;
-            fprintf(" Mode 3: Detected Collison when both nodes try with data in hidden mode  %d, %d  %d, %d, %f\n", CW_C, CW_A, BKP_CNT_A, BKP_CNT_C, i);
-            i = i + (max(BKP_CNT_A, BKP_CNT_C)) + 2 + 1 + 2;       % Collison ofr RTS + CTS window
+            %fprintf(" Mode 3: Detected Collison when both nodes try with data in hidden mode  %d, %d  %d, %d, %f\n", CW_C, CW_A, BKP_CNT_A, BKP_CNT_C, i);
+            i = i + (max(BKP_CNT_A, BKP_CNT_C)) + DataSlot + 1 + 2 ;       % Collison ofr RTS + CTS window
             if (CW_C < CWMAX_C) CW_C = 2*CW_C; end
             if (CW_A < CWMAX_A) CW_A = 2*CW_A; end
             A_backedup = 0;

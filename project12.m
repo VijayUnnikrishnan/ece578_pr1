@@ -4,11 +4,11 @@ DATA_RATE =[100 200 300 400 700 1000];
 coll_cnt_dat_rat = zeros(4,6);
 vcs_en = 0;
 hidterminal = 0;
-RUNTIME = 1;
+RUNTIME = 10;
 %Run for 1 mSec
 thrgpt_A = zeros(4,6);
 thrgpt_C = zeros(4,6);
-for mode = 1: 4
+for mode = 1 : 4
 
     fprintf("Entering mode loop %d \n", mode );
     if (mode == 1)
@@ -79,7 +79,7 @@ for mode = 1: 4
         %Generate the paket generation events
         NumSlots = (RUNTIME/FrameSlot); % Remove this 100
 
-        i =0;
+        i =1;
         while(i < NumSlots)
             %  fprintf("Num of slot proceedes is %d \n", i );
             i = i + 4;
@@ -107,12 +107,12 @@ for mode = 1: 4
                 %fprintf("Packet Index is %f, %f, \n", A_tidx, C_tidx );
 
             elseif (A_has_pkt)
-                [i, BKP_CNT_A, BKP_CNT_C, coll_det, A_tran_suc, C_tran_suc ] = calc_new_simtime_A_transmit(i, sim_time, hidterminal, FrameSlot,  X_C_pkt_arr_time, C_tidx, vcs_en, A_backedup, C_backedup, CW_A, CW_C , DataSlot, BKP_CNT_A, BKP_CNT_C, DATA_RATE,dat_rt, RUNTIME);
+                [i, BKP_CNT_A, BKP_CNT_C, coll_det, A_tran_suc, C_tran_suc, CW_A ] = calc_new_simtime_A_transmit(i, sim_time, hidterminal, FrameSlot,  X_C_pkt_arr_time, C_tidx, vcs_en, A_backedup, C_backedup, CW_A, CW_C , DataSlot, BKP_CNT_A, BKP_CNT_C, DATA_RATE,dat_rt, RUNTIME);
                 if (coll_det) CollCnt = CollCnt + 1;
                 else A_tidx = A_tidx + 1;;
                 end
             elseif (C_has_pkt)
-                [i, BKP_CNT_A, BKP_CNT_C, coll_det, A_tran_suc, C_tran_suc ] = calc_new_simtime_C_transmit(i, sim_time, hidterminal, FrameSlot,  X_A_pkt_arr_time, A_tidx , vcs_en, A_backedup, C_backedup, CW_A, CW_C , DataSlot, BKP_CNT_A, BKP_CNT_C, DATA_RATE, dat_rt, RUNTIME);
+                [i, BKP_CNT_A, BKP_CNT_C, coll_det, A_tran_suc, C_tran_suc , CW_C] = calc_new_simtime_C_transmit(i, sim_time, hidterminal, FrameSlot,  X_A_pkt_arr_time, A_tidx , vcs_en, A_backedup, C_backedup, CW_A, CW_C , DataSlot, BKP_CNT_A, BKP_CNT_C, DATA_RATE, dat_rt, RUNTIME);
                 if (coll_det) CollCnt = CollCnt + 1;
                 else  C_tidx = C_tidx + 1;
                 end
@@ -121,10 +121,10 @@ for mode = 1: 4
             % C_tidx
         end % While loop
         coll_cnt_dat_rat(mode, dat_rt ) = CollCnt;
-          thrgpt_A(mode, dat_rt) = (A_tidx*8)/RUNTIME;        
-          thrgpt_C(mode, dat_rt) = (C_tidx*8)/RUNTIME;
-       % thrgpt_A(mode, dat_rt) = A_tidx;
-       % thrgpt_C(mode, dat_rt) = C_tidx;
+        thrgpt_A(mode, dat_rt) = (A_tidx*8)/RUNTIME;
+        thrgpt_C(mode, dat_rt) = (C_tidx*8)/RUNTIME;
+        % thrgpt_A(mode, dat_rt) = A_tidx;
+        % thrgpt_C(mode, dat_rt) = C_tidx;
     end % For loop
 
 
@@ -134,13 +134,13 @@ for mode = 1: 4
 end % Mode
 %thrgpt_C
 fprintf("Packet Index is %f, %f, \n", A_tidx, C_tidx );
-%plot(DATA_RATE, coll_cnt_dat_rat(1,:))
+plot(DATA_RATE, coll_cnt_dat_rat(:,:))
 %plot(DATA_RATE,thrgpt_C(:,:,:))
 %plot(DATA_RATE,thrgpt_A(:,:,:))
 coll_cnt_dat_rat
 %RUNTIME
 thrgpt_A
 thrgpt_C
- %X_A_pkt_arr_time
- sim_time
+%X_A_pkt_arr_time
+sim_time
 %end

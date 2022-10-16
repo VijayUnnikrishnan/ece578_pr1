@@ -150,18 +150,18 @@ for mode = 1 : 4
 end % Mode
 %thrgpt_C
 fprintf("Packet Index is %f, %f, \n", A_tidx, C_tidx );
-plot(DATA_RATE, coll_cnt_dat_rat_A(:,:))
+%plot(DATA_RATE, coll_cnt_dat_rat_A(:,:))
 %plot(DATA_RATE,thrgpt_C(:,:,:))
 %
 % plot(DATA_RATE,thrgpt_A(:,:,:))
-plot(DATA_RATE,FI(:,:))
+%plot(DATA_RATE,FI(:,:))
 FI
 %coll_cnt_dat_rat_A
 %scoll_cnt_dat_rat_C
 %RUNTIME
 thrgpt_A
 thrgpt_C
-%thrgpt_AC = thrgpt_C + thrgpt_A
+thrgpt_AC = thrgpt_C + thrgpt_A
 %X_A_pkt_arr_time
 sim_time
 %end

@@ -11,6 +11,7 @@ CWMAX_A = 1024;
 CWMIN_C = 4;
 CWMIN_A = 4;
 
+
 if (C_backedup)
     BKP_CNT_C = BKP_CNT_C;  %Continue from previous value if A was backed up earlier
 else
@@ -28,10 +29,11 @@ BKP_CNT_C = BKP_CNT_C ; % Redundant
 
 if(hidterminal) % && (C_tidx < (DATA_RATE(dat_rt)*RUNTIME) ))
     if (vcs_en)
-        if(((i + BKP_CNT_C + 1 + 2 + 1 + 2)*0.00001) < X_A_pkt_arr_time(A_tidx ))
+        if(((i + BKP_CNT_C + 1 + 2 + 1 + 2)*0.00001) < X_A_pkt_arr_time(A_tidx )) %If the arrival of Station A is less than the Backup count of C + SIFS + RTS + SIFS + CTS
+                                                                                  %Station  C is clear to transmit the packet without collision
             C_tran_suc = 1;
             CW_C = CWMIN_C;
-            i = i + BKP_CNT_C + 1 + 2 + 1 + 2 + 1 + DataSlot + 1+ 2 ;
+            i = i + BKP_CNT_C + 1 + 2 + 1 + 2 + 1 + DataSlot + 1+ 2 ;             %Run time is moved forward by Backup count + SIFS + RTS + SIFS + CTS + SIFS + Dataslot + SIFS + ACK slots
         else
             C_tran_suc = 0;
             if (CW_C < CWMAX_C) CW_C = 2*CW_C; end

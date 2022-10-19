@@ -28,10 +28,11 @@ BKP_CNT_C = BKP_CNT_C ; % Redundant
 
 if(hidterminal) % && (C_tidx < (DATA_RATE(dat_rt)*RUNTIME) ))
     if (vcs_en)
-        if((i + BKP_CNT_A + 1 + 2 + 1 + 2)*0.00001 < X_C_pkt_arr_time(C_tidx ))
+        if((i + BKP_CNT_A + 1 + 2 + 1 + 2)*0.00001 < X_C_pkt_arr_time(C_tidx )) %If the arrival of Station C is less than the Backup count of A + SIFS + RTS + SIFS + CTS
+            %Station  A is clear to transmit the packet without collision
             A_tran_suc = 1;
             CW_A = CWMIN_A;
-            i = i + BKP_CNT_A + 1 + 2 + 1 + 2 + 1 + DataSlot + 1+ 2 ;
+            i = i + BKP_CNT_A + 1 + 2 + 1 + 2 + 1 + DataSlot + 1+ 2 ; %Run time is moved forward by Backup count + SIFS + RTS + SIFS + CTS + SIFS + Dataslot + SIFS + ACK slots
             % fprintf("Mode4 : Entered \n" );
         else
             A_tran_suc = 0;
